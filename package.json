@@ -9,7 +9,9 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "add-store": "ng add @ngrx/store-devtools",
+    "add-store-feature": "ng generate store auth/Auth --module auth.module.ts"
   },
   "private": true,
   "dependencies": {
