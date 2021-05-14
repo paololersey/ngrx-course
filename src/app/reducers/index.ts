@@ -1,3 +1,4 @@
+import { routerReducer } from '@ngrx/router-store';
 import {
   ActionReducer,
   ActionReducerMap,
@@ -13,6 +14,8 @@ export interface AppState {
 }
 
 export const reducers: ActionReducerMap<AppState> = {
+  // for time travelling debugger
+  router: routerReducer
 
 };
 
