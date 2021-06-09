@@ -1,5 +1,6 @@
 import { createEntityAdapter, EntityState } from '@ngrx/entity';
 import { createReducer, on } from '@ngrx/store';
+import { CourseActions } from '../action.types';
 import { allCoursesLoaded } from '../course.actions';
 import { compareCourses, Course } from '../model/course';
 
@@ -20,13 +21,16 @@ export const initialCoursesState = adapter.getInitialState({
 
 export const coursesReducer = createReducer(
     initialCoursesState,
+
     on(allCoursesLoaded,
        // (state, action) => adapter.addAll(action.courses, state))
-       (state, action) => adapter.addAll(action.courses, {...state, allCoursesLoaded: true}))
+       (state, action) => adapter.addAll(action.courses, {...state, allCoursesLoaded: true})),
        // shallow copy of state and set a property allCoursesLoaded to the EntityState
+
+    on(CourseActions.courseUpdate,
+        (state, action) => adapter.updateOne(action.update, state))
 );
 
 export const {selectAll} = adapter.getSelectors();
-
 
 

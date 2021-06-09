@@ -20,5 +20,16 @@ export class CoursesEffects {
         )
 
     );
+
+    saveCourse$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(CourseActions.courseUpdate),
+            // for save operation use concatMap, since it is a high order operator that makes the operation sequentially
+            concatMap(action =>
+                this.courseHttpService.saveCourse(action.update.id, action.update.changes)
+            )
+         ),
+         {dispatch: false}
+    );
     constructor(private actions$: Actions, private courseHttpService: CoursesHttpService) { }
 }

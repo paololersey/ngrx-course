@@ -1,9 +1,12 @@
-import {Component, Inject} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {Course} from '../model/course';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Observable} from 'rxjs';
-import {CoursesHttpService} from '../services/courses-http.service';
+import { Component, Inject } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Update } from '@ngrx/entity';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { AppState } from '../../reducers';
+import { courseUpdate } from '../course.actions';
+import { Course } from '../model/course';
 
 @Component({
   selector: 'course-dialog',
@@ -20,13 +23,13 @@ export class EditCourseDialogComponent {
 
   mode: 'create' | 'update';
 
-  loading$:Observable<boolean>;
+  loading$: Observable<boolean>;
 
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<EditCourseDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data,
-    private coursesService: CoursesHttpService) {
+    private store: Store<AppState>) {
 
     this.dialogTitle = data.dialogTitle;
     this.course = data.course;
@@ -39,11 +42,10 @@ export class EditCourseDialogComponent {
       promo: ['', []]
     };
 
-    if (this.mode == 'update') {
+    if (this.mode === 'update') {
       this.form = this.fb.group(formControls);
       this.form.patchValue({...data.course});
-    }
-    else if (this.mode == 'create') {
+    }  else if (this.mode === 'create') {
       this.form = this.fb.group({
         ...formControls,
         url: ['', Validators.required],
@@ -63,11 +65,19 @@ export class EditCourseDialogComponent {
       ...this.form.value
     };
 
-    this.coursesService.saveCourse(course.id, course)
+    const update: Update<Course> = {
+      id: course.id,
+      changes: course
+
+    };
+    this.store.dispatch(courseUpdate({update}));
+    // not calling directly backend, but from effect
+    /*this.coursesService.saveCourse(course.id, course)
       .subscribe(
         () => this.dialogRef.close()
-      )
-
+      );
+    */
+    this.dialogRef.close();
 
   }
 

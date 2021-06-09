@@ -2,16 +2,20 @@
   "name": "angular-ngrx-course",
   "version": "0.0.0",
   "license": "MIT",
+  "watch": {
+    "test": "*.js"
+  },
   "scripts": {
     "ng": "ng",
-    "start": "ng serve  --proxy-config ./proxy.json",
+    "start": "ng serve  --proxy-config ./proxy.json", 
     "server": "ts-node -P ./server/server.tsconfig.json ./server/server.ts",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "add-store": "ng add @ngrx/store-devtools",
-    "add-store-feature": "ng generate store auth/Auth --module auth.module.ts"
+    "add-store-feature": "ng generate store auth/Auth --module auth.module.ts",
+    "watch": "npm-watch"
   },
   "private": true,
   "dependencies": {
@@ -37,6 +41,7 @@
     "core-js": "^2.4.1",
     "express": "^4.16.2",
     "moment": "^2.22.2",
+    "npm-watch": "^0.9.0",
     "rxjs": "^6.5.4",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.3"
