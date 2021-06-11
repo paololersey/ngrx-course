@@ -28,6 +28,7 @@ import { compareLessons, Lesson } from './model/lesson';
 import { CoursesEntityService } from './services/course-entity.service';
 import { CourseResolver } from './services/course.resolver';
 import { CoursesDataService } from './services/course-data.service';
+import { LessonEntityService } from './services/lesson/lesson-entity.service';
 
 
 export const coursesRoutes: Routes = [
@@ -57,6 +58,9 @@ const entityMetadata: EntityMetadataMap = {
       optimisticUpdate: true,
       optimisticAdd: false // tipically the insert requires the ID From backend, so it must be done pessimistically
     }
+  },
+  Lesson: {
+    sortComparer: compareLessons
   }
 };
 
@@ -97,7 +101,8 @@ const entityMetadata: EntityMetadataMap = {
     CoursesHttpService,
     CoursesEntityService,
     CoursesDataService,
-    CourseResolver
+    CourseResolver,
+    LessonEntityService
   ]
 })
 export class CoursesModule {
