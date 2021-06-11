@@ -67,6 +67,8 @@ const routes: Routes = [
       }),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
     EffectsModule.forRoot([]),
+    // adding Ngrx data - no entities globally linked to this module
+    EntityDataModule.forRoot({}),
     // for time travellig debugger
     StoreRouterConnectingModule.forRoot({
       stateKey: 'router',
